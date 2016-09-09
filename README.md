@@ -87,3 +87,17 @@ And a header mapping for `Content-Type` of `integration.response.body.contentTyp
 
 [npm-url]: https://npmjs.org/package/lambda-express
 [npm-version-image]: http://img.shields.io/npm/v/lambda-express.svg?style=flat
+
+
+If you want more headers on the return request, then add a `responseHeaders` key
+to the integration request mapping, separating headers by a `:`.  For example:
+
+```
+  ...
+  "pathParams": "$input.params().path",
+  "allParams": "$input.params()",
+  "responseHeaders": "Set-Cookie:X-Custom-Header"
+```
+
+Remember, don't forget the `,`.  Then do the same as you did for Content-Type in the
+header mapping, e.g. `integration.response.body.Set-Cookie`.

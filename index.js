@@ -80,7 +80,6 @@ function mapEvent( event){
 
     request.method = event["http-method"];
     request.url = reconstructUrl(event['resource-path'],request);
-
     delete request.allParams;
     delete request.queryString;
 
@@ -103,10 +102,12 @@ exports.appHandler = function(appHandle) {
         } else {
             app = appHandle;
         }
-
+        var responseHeaders = []
+        if (event.responseHeaders) {
+          responseHeaders = (event.responseHeaders || '').split(':');
+        }
         var req = mapEvent(event);
         var res = new http.ServerResponse(req);
-
         res.original_end = res.end;
         res.end = function (chunk, encoding, callback) {
             res.original_end(chunk, encoding, callback);
@@ -119,7 +120,12 @@ exports.appHandler = function(appHandle) {
                 var contentType = res.getHeader('content-type');
                 var payload = res.output[1].toString('base64');
 
-                context.succeed({payload: payload, contentType: contentType});
+                var lambdaResponse = {payload: payload, contentType: contentType};
+                for (var i=0, l=responseHeaders.length; i<l; i++) {
+                  var h = responseHeaders[i];
+                  lambdaResponse[h] = res.getHeader(h.toLowerCase());
+                }
+                context.succeed(lambdaResponse);
             }
         };
 
