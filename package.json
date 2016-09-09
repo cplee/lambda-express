@@ -1,6 +1,6 @@
 {
   "name": "lambda-express",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Lambda to express app",
   "author": "Casey Lee",
   "license": "MIT",
