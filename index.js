@@ -12,17 +12,12 @@ function parseParamString(paramString) {
     if ( typeof paramString !== "undefined" ){
         paramString
             .substring(1, paramString.length - 1) //strip off { and }
-            .split(", ")
-            .forEach(function(keyVal) {
-                var pieces = keyVal.split("=");
-                var key = pieces[0],
-                    val = pieces[1];
+            .replace(/([a-zA-z-]+)=([^ ]*)(, |$)/g, function(_, header, val) {
+              //Force "true" and "false" into Boolean
+              if (val === "true") val = true;
+              if (val === "false") val = false;
 
-                //Force "true" and "false" into Boolean
-                if (val === "true") val = true;
-                if (val === "false") val = false;
-
-                obj[key] = val;
+              obj[header] = val;
             });
     }
 
