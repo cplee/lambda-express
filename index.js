@@ -12,12 +12,12 @@ function parseParamString(paramString) {
     if ( typeof paramString !== "undefined" ){
         paramString
             .substring(1, paramString.length - 1) //strip off { and }
-            .replace(/([a-zA-z-]+)=([^ ]*)(, |$)/g, function(_, header, val) {
+            .replace(/([a-zA-z-]+)=(.*?)(, |$)/g, function(_, header, val) {
               //Force "true" and "false" into Boolean
               if (val === "true") val = true;
               if (val === "false") val = false;
 
-              obj[header] = val;
+              obj[header.toLowerCase()] = val;
             });
     }
 
