@@ -73,6 +73,13 @@ function mapEvent( event){
     }
     request.pathParams = parseParamString(event.pathParams);
 
+    if (event.body) {
+        //if json body, then load it in;
+        //depends on requestTemplates line: "body": $input.json('$')
+        request.body = event.body;
+        request._body = true;
+    }
+
     request.method = event["http-method"];
     request.url = reconstructUrl(event['resource-path'],request);
     delete request.allParams;

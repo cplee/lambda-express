@@ -101,3 +101,6 @@ to the integration request mapping, separating headers by a `:`.  For example:
 
 Remember, don't forget the `,`.  Then do the same as you did for Content-Type in the
 header mapping, e.g. `integration.response.body.Set-Cookie`.
+
+
+For JSON body posts, add the line `"body": $input.json('$'),` into the integration request mapping.
